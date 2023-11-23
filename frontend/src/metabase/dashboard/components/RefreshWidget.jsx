@@ -1,3 +1,4 @@
+import MetabaseSettings from "metabase/lib/settings";
 /* eslint-disable react/prop-types */
 import { createRef, Component } from "react";
 
@@ -23,6 +24,48 @@ const OPTIONS = [
   { name: t`30 minutes`, period: 30 * 60 },
   { name: t`60 minutes`, period: 60 * 60 },
 ];
+
+const getPeriodNameFromSeconds = (seconds) => {
+  if(!seconds) return t`Off`;
+  let timeUnit;
+  let count = seconds;
+
+  if (seconds <= 60) {
+    timeUnit = "seconds"; // t`seconds`;
+    count = seconds;
+  }
+  else if (seconds <= 60*60){
+    timeUnit = "minutes"; // t`minutes`;
+    count = seconds/60;
+  }
+  else if (seconds <= 24*60*60){
+    timeUnit = "hours"; // t`hours`;
+    count = seconds/(60*60);
+  }
+  else if (seconds <= 365*24*60*60){
+    timeUnit = "days"; // t`days`;
+    count = seconds/(24*60*60);
+  }
+  // skipping weeks and months 
+  else {
+    timeUnit = "years"; // t`years`;
+    count = seconds/(365*24*60*60);
+  }
+  // doesn't support rtl languages...
+  // shouldn't round 
+  return `${Math.round(count)} ${timeUnit}`;
+}
+
+const getCustomOptionsFromSettings = () => {
+  const CUSTOM_DASHBOARD_REFRESH_OPTIONS =  MetabaseSettings.get("custom-dashboard-refresh-options");
+  const optionsString = CUSTOM_DASHBOARD_REFRESH_OPTIONS ?? "15 30 60 300 600 900 1800 3600 7200"; 
+  const secondsToPeriodOption = (seconds) => {
+    const period = Number.parseInt(seconds);
+    const name = getPeriodNameFromSeconds(period);
+    return { name, period };
+  };
+  return optionsString.split(" ").map(secondsToPeriodOption);
+};
 
 export default class RefreshWidget extends Component {
   constructor(props) {
@@ -93,7 +136,7 @@ export default class RefreshWidget extends Component {
         <RefreshWidgetPopover>
           <RefreshWidgetTitle>{t`Auto Refresh`}</RefreshWidgetTitle>
           <RefreshOptionList>
-            {OPTIONS.map(option => (
+            {(getCustomOptionsFromSettings() ?? OPTIONS).map(option => (
               <RefreshOption
                 key={option.period}
                 name={option.name}
