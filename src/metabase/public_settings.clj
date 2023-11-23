@@ -683,3 +683,8 @@
   (deferred-tru "Prefix for upload table names")
   :visibility   :authenticated
   :type         :string)
+
+(defsetting custom-dashboard-refresh-options
+  (deferred-tru "Custom dashboard refresh options as a space separated list of periods in seconds")
+  :visibility   :authenticated
+  :type         :string)
