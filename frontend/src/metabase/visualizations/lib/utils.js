@@ -1,4 +1,5 @@
 import _ from "underscore";
+import MetabaseSettings from "metabase/lib/settings";
 import d3 from "d3";
 import { t } from "ttag";
 import crossfilter from "crossfilter";

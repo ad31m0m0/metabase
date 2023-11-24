@@ -1,4 +1,5 @@
 import _ from "underscore";
+import MetabaseSettings from "metabase/lib/settings";
 import {
   cardHasBecomeDirty,
   computeMaxDecimalsForValues,
@@ -258,7 +259,7 @@ describe("metabase/visualization/lib/utils", () => {
         getDefaultDimensionsAndMetrics([
           {
             data: {
-              rows: _.range(0, CUSTOM_MAX_SERIES_LIMIT+1).map(v => [0, v, v]),
+              rows: _.range(0, CUSTOM_MAX_SERIES_LIMIT+155).map(v => [0, v, v]),
               cols: [
                 {
                   name: "count",
