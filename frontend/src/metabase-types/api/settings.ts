@@ -270,6 +270,7 @@ export interface Settings {
   "uploads-table-prefix": string | null;
   "user-visibility": string | null;
   "last-acknowledged-version": string | null;
+  "custom-max-series-limit": number | null;
 }
 
 export type SettingKey = keyof Settings;

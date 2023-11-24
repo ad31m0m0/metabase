@@ -212,5 +212,6 @@ export const createMockSettings = (opts?: Partial<Settings>): Settings => ({
   "uploads-schema-name": null,
   "user-visibility": null,
   "last-acknowledged-version": "v1",
+  "custom-max-series-limit": 100,
   ...opts,
 });
