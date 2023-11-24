@@ -252,11 +252,13 @@ describe("metabase/visualization/lib/utils", () => {
       ).toEqual({ dimensions: ["high", "low"], metrics: ["count"] });
     });
     it("should pick a high cardinality dimension for the second dimension", () => {
+      const CUSTOM_MAX_SERIES_LIMIT = 2000;
+      MetabaseSettings.set("custom-max-series-limit", CUSTOM_MAX_SERIES_LIMIT);
       expect(
         getDefaultDimensionsAndMetrics([
           {
             data: {
-              rows: _.range(0, 2001).map(v => [0, v, v]),
+              rows: _.range(0, CUSTOM_MAX_SERIES_LIMIT+1).map(v => [0, v, v]),
               cols: [
                 {
                   name: "count",
