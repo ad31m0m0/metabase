@@ -6,7 +6,7 @@ import crossfilter from "crossfilter";
 
 import { isDimension, isMetric, isDate } from "metabase-lib/types/utils/isa";
 
-export const MAX_SERIES =  MetabaseSettings.get("custom-max-series-limit") ?? 100;
+const MAX_SERIES =  ()=> MetabaseSettings.get("custom-max-series-limit") ?? 100;
 
 const SPLIT_AXIS_UNSPLIT_COST = -100;
 const SPLIT_AXIS_COST_FACTOR = 2;
@@ -329,7 +329,7 @@ export function getDefaultDimensionsAndMetrics(
 
   if (
     dimensions.length > 1 &&
-    getColumnCardinality(cols, rows, cols.indexOf(dimensions[1])) > MAX_SERIES
+    getColumnCardinality(cols, rows, cols.indexOf(dimensions[1])) > MAX_SERIES()
   ) {
     dimensions.pop();
   }

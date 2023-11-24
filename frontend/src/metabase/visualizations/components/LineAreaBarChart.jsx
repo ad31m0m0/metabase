@@ -104,7 +104,7 @@ export default class LineAreaBarChart extends Component {
   getHoverClasses() {
     const { hovered } = this.props;
     if (hovered && hovered.index != null) {
-      const seriesClasses = _.range(0, MAX_SERIES)
+      const seriesClasses = _.range(0, MAX_SERIES())
         .filter(n => n !== hovered.index)
         .map(n => "mute-" + n);
       const axisClasses =
@@ -317,7 +317,7 @@ export default class LineAreaBarChart extends Component {
             series={orderedSeries}
             settings={this.getSettings()}
             className="renderer flex-full"
-            maxSeries={MAX_SERIES}
+            maxSeries={MAX_SERIES()}
             renderer={this.constructor.renderer}
           />
         </LegendLayout>

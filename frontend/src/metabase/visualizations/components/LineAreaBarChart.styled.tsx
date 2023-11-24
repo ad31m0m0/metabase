@@ -16,7 +16,7 @@ const getMuteSeriesClass = (i: number) => [
 ];
 
 const getMuteSeriesSelector = () => {
-  return _.range(MAX_SERIES).flatMap(getMuteSeriesClass).join(",");
+  return _.range(MAX_SERIES()).flatMap(getMuteSeriesClass).join(",");
 };
 
 export const LineAreaBarChartRoot = styled.div<{ isQueryBuilder: boolean }>`

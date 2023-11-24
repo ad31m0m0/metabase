@@ -113,7 +113,7 @@ export const GRAPH_DATA_SETTINGS = {
     widget: "fields",
     getMarginBottom: (series, vizSettings) =>
       vizSettings["graph.dimensions"]?.length === 2 &&
-      series.length <= MAX_SERIES
+      series.length <= MAX_SERIES()
         ? "0.5rem"
         : "1rem",
     isValid: (series, vizSettings) =>
@@ -229,7 +229,7 @@ export const GRAPH_DATA_SETTINGS = {
     },
     getHidden: (series, settings) => {
       return (
-        settings["graph.dimensions"]?.length < 2 || series.length > MAX_SERIES
+        settings["graph.dimensions"]?.length < 2 || series.length > MAX_SERIES()
       );
     },
     dashboard: false,
