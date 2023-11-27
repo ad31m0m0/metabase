@@ -15,6 +15,8 @@ import {
   RefreshWidgetTitle,
 } from "./RefreshWidget.styled";
 
+const CUSTOM_REFRESH_OPTIONS =  () => MetabaseSettings.get("custom-dashboard-refresh-options");
+
 const OPTIONS = [
   { name: t`Off`, period: null },
   { name: t`1 minute`, period: 1 * 60 },
@@ -26,10 +28,10 @@ const OPTIONS = [
 ];
 
 const getPeriodNameFromSeconds = (seconds) => {
-  if(!seconds) return t`Off`;
   let timeUnit;
   let count = seconds;
-
+  if(!seconds) return t`Off`;
+  if (seconds == 1) return "1 second" // t`second`;
   if (seconds <= 60) {
     timeUnit = "seconds"; // t`seconds`;
     count = seconds;
@@ -46,25 +48,23 @@ const getPeriodNameFromSeconds = (seconds) => {
     timeUnit = "days"; // t`days`;
     count = seconds/(24*60*60);
   }
-  // skipping weeks and months 
   else {
     timeUnit = "years"; // t`years`;
     count = seconds/(365*24*60*60);
   }
   // doesn't support rtl languages...
-  // shouldn't round 
   return `${Math.round(count)} ${timeUnit}`;
 }
 
 const getCustomOptionsFromSettings = () => {
-  const CUSTOM_DASHBOARD_REFRESH_OPTIONS =  MetabaseSettings.get("custom-dashboard-refresh-options");
-  const optionsString = CUSTOM_DASHBOARD_REFRESH_OPTIONS ?? "15 30 60 300 600 900 1800 3600 7200"; 
+  const customOptions = CUSTOM_REFRESH_OPTIONS();
+  if(!customOptions) return null;
   const secondsToPeriodOption = (seconds) => {
     const period = Number.parseInt(seconds);
     const name = getPeriodNameFromSeconds(period);
     return { name, period };
   };
-  return optionsString.split(" ").map(secondsToPeriodOption);
+  return customOptions.split(" ").map(secondsToPeriodOption);
 };
 
 export default class RefreshWidget extends Component {
